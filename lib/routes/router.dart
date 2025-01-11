@@ -1,12 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
+
 import '../pages/detail_product.dart';
 import '../pages/error.dart';
+import '../pages/home.dart';
 import '../pages/login.dart';
 import '../pages/products.dart';
-import '../pages/settings.dart';
-
-import '../pages/home.dart';
 
 export 'package:go_router/go_router.dart';
 
@@ -15,7 +14,6 @@ part 'route_name.dart';
 final router = GoRouter(
   redirect: (context, state) {
     FirebaseAuth auth = FirebaseAuth.instance;
-    print(auth.currentUser);
     // cek kondisi saat ini -> sedang ada user login atau tidak
     if (auth.currentUser == null) {
       return '/login';
@@ -34,26 +32,23 @@ final router = GoRouter(
       builder: (context, state) => const HomePage(),
       routes: [
         GoRoute(
-            path: 'products',
-            name: Routes.products,
-            builder: (context, state) => const ProductsPage(),
-            routes: [
-              GoRoute(
-                path: ':productId',
-                name: Routes.detailProduct,
-                builder: (context, state) => DetailProductPage(
-                  state.pathParameters['productId'].toString(),
-                  state.uri.queryParameters,
-                ),
+          path: 'products',
+          name: Routes.products,
+          builder: (context, state) => const ProductsPage(),
+          routes: [
+            GoRoute(
+              path: ':productId',
+              name: Routes.detailProduct,
+              builder: (context, state) => DetailProductPage(
+                state.pathParameters['productId'].toString(),
+                state.uri.queryParameters,
               ),
-            ]),
+            ),
+          ],
+        ),
       ],
     ),
-    GoRoute(
-      path: '/settings',
-      name: Routes.settings,
-      builder: (context, state) => const SettingsPage(),
-    ),
+
     GoRoute(
       path: '/login',
       name: Routes.login,

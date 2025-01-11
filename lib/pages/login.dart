@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:qrcode_bloc_app/bloc/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:qrcode_bloc_app/routes/router.dart';
+import '../bloc/features/auth/presentation/bloc/auth_bloc.dart';
+import '../routes/router.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});

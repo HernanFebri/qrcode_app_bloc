@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qrcode_bloc_app/bloc/features/auth/presentation/bloc/auth_bloc.dart';
-import '../routes/router.dart';
+import '../bloc/features/auth/presentation/bloc/auth_bloc.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -9,43 +8,69 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home Page'),
+        title: const Text('HOME'),
+        centerTitle: true,
       ),
-      body: Center(
-        child: BlocConsumer<AuthBloc, AuthState>(
-          listener: (context, state) {
-            if (state is AuthStateLogout) {
-              context.goNamed(Routes.login);
-            }
-          },
-          builder: (context, state) {
-            if (state is AuthStateLoading) {
-              return const CircularProgressIndicator();
-            }
-            if (state is AuthStateError) {
-              return Text(state.message);
-            }
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // GoRouter.of(context).go('/settings');
-                    context.goNamed(Routes.settings);
-                  },
-                  child: const Text('Settings'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    // GoRouter.of(context).go('/products');
-                    context.goNamed(Routes.products);
-                  },
-                  child: const Text('Show All Products'),
-                ),
-              ],
-            );
-          },
+      body: GridView.builder(
+        padding: EdgeInsets.all(20),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          mainAxisSpacing: 20,
+          crossAxisSpacing: 20,
+          crossAxisCount: 2,
         ),
+        itemCount: 4,
+        itemBuilder: (BuildContext context, int index) {
+          late String title;
+          late IconData icon;
+          late VoidCallback onTap;
+
+          switch (index) {
+            case 0:
+              title = 'Add Product';
+              icon = Icons.post_add_rounded;
+              onTap = () {};
+              break;
+            case 1:
+              title = 'Products';
+              icon = Icons.list_alt_outlined;
+              onTap = () {};
+              break;
+            case 2:
+              title = 'QR Code';
+              icon = Icons.qr_code;
+              onTap = () {};
+              break;
+            case 3:
+              title = 'Catalog';
+              icon = Icons.document_scanner_outlined;
+              onTap = () {};
+              break;
+          }
+
+          return Material(
+            color: Colors.grey[300],
+            borderRadius: BorderRadius.circular(10),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(10),
+              onTap: onTap,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 50,
+                    width: 50,
+                    child: Icon(
+                      icon,
+                      size: 50,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(title),
+                ],
+              ),
+            ),
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
