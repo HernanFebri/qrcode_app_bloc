@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 import '../pages/detail_product.dart';
 import '../pages/error.dart';
+import '../pages/login.dart';
 import '../pages/products.dart';
 import '../pages/settings.dart';
 
@@ -11,6 +13,16 @@ export 'package:go_router/go_router.dart';
 part 'route_name.dart';
 
 final router = GoRouter(
+  redirect: (context, state) {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    print(auth.currentUser);
+    // cek kondisi saat ini -> sedang ada user login atau tidak
+    if (auth.currentUser == null) {
+      return '/login';
+    } else {
+      return '/'; // redirect ke halaman home
+    }
+  },
   errorBuilder: (context, state) => ErrorPage(),
   routes: [
     // KALO 1 LEVEL --> PUSH REPLACEMENT
@@ -41,6 +53,11 @@ final router = GoRouter(
       path: '/settings',
       name: Routes.settings,
       builder: (context, state) => const SettingsPage(),
+    ),
+    GoRoute(
+      path: '/login',
+      name: Routes.login,
+      builder: (context, state) => LoginPage(),
     ),
   ],
 );

@@ -11,7 +11,7 @@ class ProductsPage extends StatelessWidget {
         title: Text('Products Page'),
       ),
       body: ListView.builder(
-          itemCount: 15,
+          itemCount: 20,
           itemBuilder: (context, index) {
             return ListTile(
               onTap: () {
