@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "395181569756",
+    "project_id": "qrcode-bloc-pattern",
+    "storage_bucket": "qrcode-bloc-pattern.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:395181569756:android:37746153a83bf48abaa619",
+        "android_client_info": {
+          "package_name": "com.qrcode_bloc_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_mqkKMBFs_qrsijMynTUxmdbvTh3Z6qw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
