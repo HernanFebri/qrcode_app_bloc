@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-export 'package:flutter_bloc/flutter_bloc.dart';
+// export 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -34,8 +34,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await auth.signOut();
         emit(AuthStateLogout());
       } on FirebaseAuthException catch (e) {
+        // error firebase
         emit(AuthStateError(e.message.toString()));
       } catch (e) {
+        // error general
         emit(AuthStateError(e.toString()));
       }
     });

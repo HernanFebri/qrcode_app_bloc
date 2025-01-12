@@ -1,13 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 
+import '../pages/add_product.dart';
 import '../pages/detail_product.dart';
 import '../pages/error.dart';
 import '../pages/home.dart';
 import '../pages/login.dart';
 import '../pages/products.dart';
-
-export 'package:go_router/go_router.dart';
 
 part 'route_name.dart';
 
@@ -16,9 +15,9 @@ final router = GoRouter(
     FirebaseAuth auth = FirebaseAuth.instance;
     // cek kondisi saat ini -> sedang ada user login atau tidak
     if (auth.currentUser == null) {
-      return '/login';
+      return '/login'; // Redirect ke login jika tidak ada user yang terautentikasi
     } else {
-      return '/'; // redirect ke halaman home
+      return '/'; // Redirect ke home jika sudah terautentikasi
     }
   },
   errorBuilder: (context, state) => ErrorPage(),
@@ -46,9 +45,13 @@ final router = GoRouter(
             ),
           ],
         ),
+        GoRoute(
+          path: 'add-product',
+          name: Routes.addProduct,
+          builder: (context, state) => const AddProductPage(),
+        ),
       ],
     ),
-
     GoRoute(
       path: '/login',
       name: Routes.login,
