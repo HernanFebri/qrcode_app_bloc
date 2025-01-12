@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
 import '../bloc/features/auth/presentation/bloc/auth_bloc.dart';
 import '../routes/router.dart';
 
@@ -12,7 +13,8 @@ class HomePage extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthStateLogout) {
-          context.goNamed(Routes.login);
+          context
+              .goNamed(Routes.login); // Navigasi ke halaman login saat logout
         }
       },
       child: Scaffold(
@@ -31,37 +33,32 @@ class HomePage extends StatelessWidget {
           itemBuilder: (context, index) {
             late String title;
             late IconData icon;
-            late VoidCallback ontap;
+            late VoidCallback onTap;
 
             switch (index) {
               case 0:
                 title = 'Add Product';
                 icon = Icons.post_add_rounded;
-                ontap = () {
+                onTap = () {
                   context.goNamed(Routes.addProduct);
-                  print('Navigating to AddProductPage');
                 };
-
                 break;
               case 1:
                 title = 'Products';
                 icon = Icons.list_alt_outlined;
-                ontap = () {
-                  print('Navigating to ProductsPage');
+                onTap = () {
                   context.goNamed(Routes.products);
                 };
                 break;
               case 2:
                 title = 'QR Code';
                 icon = Icons.qr_code;
-                ontap = () {};
-
+                onTap = () {};
                 break;
               case 3:
                 title = 'Catalog';
                 icon = Icons.document_scanner_outlined;
-                ontap = () {};
-
+                onTap = () {};
                 break;
             }
 
@@ -70,7 +67,7 @@ class HomePage extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               child: InkWell(
                 borderRadius: BorderRadius.circular(10),
-                onTap: ontap,
+                onTap: onTap,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -92,8 +89,34 @@ class HomePage extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            // Trigger logout event
-            context.read<AuthBloc>().add(AuthEventLogout());
+            // Tampilkan dialog konfirmasi logout
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Konfirmasi Logout'),
+                  content: const Text('Apakah Anda yakin ingin logout?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        // Tutup dialog
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Tidak'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        // Tutup dialog
+                        Navigator.of(context).pop();
+                        // Trigger logout event
+                        context.read<AuthBloc>().add(AuthEventLogout());
+                      },
+                      child: const Text('Ya'),
+                    ),
+                  ],
+                );
+              },
+            );
           },
           child: const Icon(Icons.logout),
         ),

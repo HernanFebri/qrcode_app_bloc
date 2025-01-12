@@ -13,12 +13,15 @@ part 'route_name.dart';
 final router = GoRouter(
   redirect: (context, state) {
     FirebaseAuth auth = FirebaseAuth.instance;
-    // cek kondisi saat ini -> sedang ada user login atau tidak
-    if (auth.currentUser == null) {
+    final bool isLoggedIn = auth.currentUser != null;
+    final bool isGoingToLogin = state.uri.toString() == '/login';
+
+    if (!isLoggedIn && !isGoingToLogin) {
       return '/login'; // Redirect ke login jika tidak ada user yang terautentikasi
-    } else {
-      return '/'; // Redirect ke home jika sudah terautentikasi
+    } else if (isLoggedIn && isGoingToLogin) {
+      return '/'; // Redirect ke home jika sudah terautentikasi dan mencoba mengakses login
     }
+    return null; // Tidak perlu redirect
   },
   errorBuilder: (context, state) => ErrorPage(),
   routes: [
